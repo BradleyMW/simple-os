@@ -13,7 +13,7 @@
 
 #include <string>
 
-CPU::CPU(int input_pipe, int output_pipe)
+CPU::CPU(int input_pipe, int output_pipe, int timer)
 {
     // Initialize all of the registers
     _PC = 0;    // Begin running user program from 0 in main memory
@@ -30,6 +30,7 @@ CPU::CPU(int input_pipe, int output_pipe)
     // Set a random seed for number generation and begin in user mode.
     srand(time(NULL));
     _mode = USER;
+    _timer_val = timer;
 }
 
 void CPU::execute()
@@ -38,12 +39,29 @@ void CPU::execute()
     {
         // Read in the instruction stored at that address.
         _IR = _read_address(_PC);
-        if(_IR==End)
-            printf("_PC addr %d read in %d to _IR. Terminating\n", _PC, _IR);
         
         // Once the instruction has been retrieved, process it.
         _PC++;
         _process();
+        
+        // Check to see if there has been a timeout or not.
+        // Note that if the system is already performing a call, the timer
+        // will not yet interrupt.
+        _time++;
+        if(_mode != KERNEL && _time >= _timer_val)
+        {
+            // When a timeout interrupt occurs, enter kernel mode
+            // and
+            _mode = KERNEL;
+            int old_sp = _SP;
+            _SP = 2000;         // End of system memory is where system stack begins
+            _push(old_sp);      // Store the current user memory stack pointer
+            _push(_PC);         // along with the current instruction in user memory
+            
+            // Finally, set current location to timeout handler (line 1000)
+            _PC = 1000;
+            _time = 0;
+        }
     }
 }
 

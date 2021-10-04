@@ -25,6 +25,8 @@ private:
         _Y;
     
     bool _mode;
+    int _timer_val, // The number of instructions that pass without timeout
+        _time;      // The current number of instructions that have passed
     
     // Handles for each communication pipe.
     int _in,     // memory to cpu
@@ -70,8 +72,9 @@ public:
      * The CPU will be initialized to contain all 0's upon creation.
      * @arg input_pipe: The mem_to_cpu read end of a pipe [0]
      * @arg output_pipe: The cpu_to_mem write end of a pipe [1]
+     * @arg timer: The number of instructions that can pass before a timer interrupt occurs.
      */
-    CPU(int input_pipe, int output_pipe);
+    CPU(int input_pipe, int output_pipe, int timer);
     
     // Perform the instruction currently located on the Program Counter.
     void execute();
