@@ -53,6 +53,18 @@ private:
      */
     void _write(int addr, int val);
     
+    /**
+     * Given an integer, push it onto the top of the stack in user memory.
+     * @arg number: The value to save into the stack. Could be an address or data.
+     */
+    void _push(int number);
+    
+    /**
+     * Fetch the top value from the stack in user memory.
+     * @return: The most recent number that was stored in the stack.
+     */
+    int _pop();
+    
 public:
     /**
      * The CPU will be initialized to contain all 0's upon creation.

@@ -50,7 +50,7 @@ int main(int argc, const char * argv[])
         logError("Error: The child could not be created!\n");
     }
     // When fork() returns 0, it is the child process, or the MEMORY
-    else if(child_pid != 0)
+    else if(child_pid == 0)
     {
         // Close the ends of the pipes that won't be used.
         //close(cpu_to_mem[1]); // Write end to memory (itself)

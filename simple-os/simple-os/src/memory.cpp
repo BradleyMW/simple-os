@@ -62,7 +62,8 @@ void Memory::ReadUserProgram(std::string program_file_path)
                  * be stored at. */
                 load_address = parseInt(buffer, true);
             }
-            else
+            // Skip any lines that do not contain a valid instruction (must start with int)
+            else if(buffer[0] >= '0' && buffer[0] <= '9')
             {
                 /* If the line started with a number, it is assumed to
                  * contain a valid instruction. Store it at the current load
@@ -83,10 +84,9 @@ void Memory::Cycle()
     // the returned instruction matches the "End" request, then the Memory also exits.
     while(true)
     {
-        bool read_next;
-        read(in, &read_next, sizeof(bool));
-        //write(out, &read_next, sizeof(bool));  // Send an acknowledgment of read flag
-        if(read_next)
+        CMD next_op;
+        read(in, &next_op, sizeof(CMD));
+        if(next_op == READ)
         {
             // The memory component will wait to receive an address from the CPU.
             int address;
@@ -95,35 +95,20 @@ void Memory::Cycle()
             // Once the address is requested, it will return the data stored at that address.
             const int instr = main_mem[address];
             write(out, &instr, sizeof(int));
-            printf("Mem. wrote %d\n", instr);
-            
-            // Once the CPU has accepted the instruction, we check to see if the command
-            // was to shut down the system. If so, then the Memory can exit.
-            if(instr == End) {
-                printf("Mem. ending now.\n");
-                break;
-            }
         }
-        else
+        else if (next_op == WRITE)
         {
             // Prepare the memory to save values instead of sending them.
             int address;
             read(in, &address, sizeof(int));
             
-            // Send an acknowledgment that the address has been received.
-            //bool ack = 1;
-            //write(out, &ack, sizeof(bool));
-            
             // Now accept the value to store.
-            printf("MainMem[%d] was %d, ", address, main_mem[address]);
             int val;
             read(in, &val, sizeof(int));
             main_mem[address] = val;
-            printf("now it's %d\n", val);
-            
-            // Send an acknowledgement that the save has been completed.
-            //write(out, &ack, sizeof(bool));
             
         } // end else write
+        else if (next_op == TERMINATE)
+            break;
     } // end while true
 }
