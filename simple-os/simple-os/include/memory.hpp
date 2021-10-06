@@ -1,14 +1,17 @@
 //
 //  memory.hpp
-//  simple-os
-//
 //  Created by Bradley Wersterfer on 9/29/21.
+//
+// This file contains the class definition of Memory, which centralizes
+// logic for the memory module of the simulated OS. It features one
+// primary front-facing function, Cycle(), which simply puts it into
+// an "infinite" while loop of waiting for requests from an input pipe.
 //
 
 #ifndef memory_hpp
 #define memory_hpp
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 
 #include "common_data.hpp"

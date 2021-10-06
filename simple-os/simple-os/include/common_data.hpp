@@ -1,9 +1,12 @@
 //
 //  common_data.hpp
-//  simple-os
-//
 //  Created by Bradley Wersterfer on 10/3/21.
 //
+// This is a simple utility file that contains various shared data
+// definitions, such as an enum for the type of command being sent to
+// memory (READ, WRITE, or TERMINATE) and one for the types of instructions
+// that the CPU supports. It is included by both the memory.hpp and cpu.hpp
+// files.
 
 #ifndef common_data_h
 #define common_data_h

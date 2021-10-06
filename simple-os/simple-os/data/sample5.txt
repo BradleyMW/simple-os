@@ -1,0 +1,4 @@
+1 // Load bell noise ASCII character
+7
+9 // Print
+2 // as a char

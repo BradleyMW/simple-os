@@ -1,8 +1,13 @@
 //
 //  main.cpp
-//  simple-os
-//
 //  Created by Bradley Wersterfer on 9/29/21.
+//
+// This file contains the driver code for the application. It will spawn a
+// child process using the UNIX fork() command; the child process
+// represents a memory module and the parent process represents the CPU.
+// Each process can only communicate with each other via pipes set up by
+// this file, and the bulk of processing is handled by the respective
+// class files.
 //
 
 #include <iostream>

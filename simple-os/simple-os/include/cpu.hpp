@@ -1,8 +1,13 @@
 //
 //  cpu.hpp
-//  simple-os
-//
 //  Created by Bradley Wersterfer on 9/29/21.
+//
+// Provides the definition for the CPU class. It provides several private
+// internal functions such as pushing and popping from a stack or
+// read/write requests that send data across the output pipe to the Memory
+// (and optionally read back a result). The main public function is
+// execute(), which loops through the loaded instructions in memory until
+// an End instruction has been reached.
 //
 
 #ifndef cpu_hpp

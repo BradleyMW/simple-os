@@ -1,8 +1,12 @@
 //
 //  cpu.cpp
-//  simple-os
-//
 //  Created by Bradley Wersterfer on 9/29/21.
+//
+// This file contains the concrete implementations of the CPU class.
+// Execute() simply reads the current instruction at the Program Counter
+// into the Instruction Register and then calls process(), which switches
+// based on the logic in the IR. A sequence of over 30 commands is
+// supported; there are examples of each of these in the data folder.
 //
 
 #include "cpu.hpp"
@@ -71,7 +75,7 @@ int CPU::_read_address(int addr)
     if(addr >= 1000 && _mode != KERNEL)
     {
         // Notify the user that the process failed and exit to avoid damaging memory.
-        printf("ERROR: User attempted to access address %d from system memory!\n", addr);
+        printf("ERROR: User attempted to read from address %d in system memory!\n", addr);
         exit(1);
     }
     
@@ -93,7 +97,7 @@ void CPU::_write(int addr, int val)
     if(addr >= 1000 && _mode != KERNEL)
     {
         // Notify the user that the process failed and exit to avoid damaging memory.
-        printf("ERROR: User attempted to access address %d from system memory!\n", addr);
+        printf("ERROR: User attempted to write %d to address %d in system memory!\n", val, addr);
         CMD term = TERMINATE;
         write(_out, &term, sizeof(CMD));
         exit(1);

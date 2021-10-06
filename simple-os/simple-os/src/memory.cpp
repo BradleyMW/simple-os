@@ -1,8 +1,17 @@
 //
 //  memory.cpp
-//  simple-os
-//
 //  Created by Bradley Wersterfer on 9/29/21.
+//
+// This is the Memory module code. It contains the function implementations
+// for the Memory class from memory.hpp, and Cycle() in particular features
+// the request-fetch loop that the CPU relies upon. It first receives a
+// type of command, then prepares itself to either read or write data. If
+// reading, it will send back the data at the given address; if writing, it
+// will overwrite the data at the given address with a desired value. This
+// file also contains the public constructor for the class, which
+// implements its own ReadUserProgram() function to perform file I/O on
+// the user program file and load valid instructions into its internal
+// memory array.
 //
 
 #include "memory.hpp"
